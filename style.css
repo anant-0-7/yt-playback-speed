@@ -1,0 +1,18 @@
+/* styles.css */
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 10px;
+}
+
+h1 {
+  font-size: 18px;
+}
+
+#speed-controls {
+  margin-top: 10px;
+}
+
+#save-speed {
+  margin-left: 10px;
+}

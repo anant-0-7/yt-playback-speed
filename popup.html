@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>YouTube Speed Controller</title>
+  <style>
+    body {
+      width: 320px;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    #current-channel {
+      background-color: #f0f8ff;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    #current-channel.not-detected {
+      background-color: #f5f5f5;
+      color: #666;
+      font-style: italic;
+    }
+    .channel-item {
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 4px;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .channel-item.current {
+      background-color: #e6f7ff;
+      border-left: 3px solid #1a73e8;
+    }
+    .channel-name {
+      flex-grow: 1;
+      margin-right: 10px;
+      word-break: break-all;
+    }
+    .speed-select {
+      width: 70px;
+    }
+    .delete-btn {
+      margin-left: 5px;
+      cursor: pointer;
+      color: #cc0000;
+    }
+    .add-channel {
+      margin-top: 15px;
+    }
+    input, select, button {
+      padding: 5px;
+      margin: 5px 0;
+    }
+    #defaultSpeed {
+      margin-bottom: 15px;
+    }
+    button {
+      background-color: #4285f4;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #3367d6;
+    }
+    #saveBtn {
+      margin-top: 10px;
+    }
+    .status-message {
+      color: #4CAF50;
+      font-size: 12px;
+      margin-top: 5px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>YouTube Speed Controller</h1>
+  
+  <div id="current-channel" class="not-detected">
+    <span id="current-channel-name">No YouTube channel detected</span>
+    <div>
+      <select id="current-channel-speed" class="speed-select">
+        <option value="0.25">0.25</option>
+        <option value="0.5">0.5</option>
+        <option value="0.75">0.75</option>
+        <option value="1" selected>1 (Normal)</option>
+        <option value="1.25">1.25</option>
+        <option value="1.5">1.5</option>
+        <option value="1.75">1.75</option>
+        <option value="2">2</option>
+      </select>
+      <button id="addCurrentBtn">Set</button>
+    </div>
+  </div>
+  
+  <div>
+    <label for="defaultSpeed">Default Speed:</label>
+    <select id="defaultSpeed">
+      <option value="0.25">0.25</option>
+      <option value="0.5">0.5</option>
+      <option value="0.75">0.75</option>
+      <option value="1" selected>1 (Normal)</option>
+      <option value="1.25">1.25</option>
+      <option value="1.5">1.5</option>
+      <option value="1.75">1.75</option>
+      <option value="2">2</option>
+    </select>
+  </div>
+  
+  <h2>Channel Settings</h2>
+  <div id="channel-list">
+    <!-- Channel items will be added here dynamically -->
+  </div>
+  
+  <div class="add-channel">
+    <input type="text" id="newChannel" placeholder="Channel Name or ID">
+    <select id="newSpeed">
+      <option value="0.25">0.25</option>
+      <option value="0.5">0.5</option>
+      <option value="0.75">0.75</option>
+      <option value="1" selected>1 (Normal)</option>
+      <option value="1.25">1.25</option>
+      <option value="1.5">1.5</option>
+      <option value="1.75">1.75</option>
+      <option value="2">2</option>
+    </select>
+    <button id="addBtn">Add</button>
+  </div>
+  
+  <button id="saveBtn">Use Default</button>
+  <div id="status-message" class="status-message"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
