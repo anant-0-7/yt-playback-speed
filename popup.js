@@ -43,6 +43,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       }
     });
+
+    defaultSpeedSelect.addEventListener('change', function(event) {
+        const defaultSpeed = event.target.value;
+
+        chrome.storage.sync.set({ 'defaultSpeed': defaultSpeed }, function(){
+            showStatus('Default speed updated!');
+        });
+    });
   
     // Add current channel button
     addCurrentBtn.addEventListener('click', function() {
@@ -114,24 +122,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   
     // Save settings
+    
     saveBtn.addEventListener('click', function() {
       const defaultSpeed = defaultSpeedSelect.value;
-      chrome.storage.sync.set({ 'defaultSpeed': defaultSpeed }, function() {
-        showStatus('Using Default Speed');
-        
-        // Apply default speed if needed
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-          const currentTab = tabs[0];
-          if (currentTab && currentTab.url && currentTab.url.includes('youtube.com')) {
-            if (!currentChannelInfo || !hasChannelSetting(currentChannelInfo)) {
-              chrome.tabs.sendMessage(currentTab.id, { 
-                action: "setSpeed", 
-                speed: defaultSpeed 
-              });
-            }
+      showStatus('Using Default Speed');
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        const currentTab = tabs[0];
+        if (currentTab && currentTab.url && currentTab.url.includes('youtube.com')) {
+          if (!currentChannelInfo || !hasChannelSetting(currentChannelInfo)) {
+            chrome.tabs.sendMessage(currentTab.id, { 
+              action: "setSpeed", 
+              speed: defaultSpeed 
+            });
           }
-        });
-      });   
+        }
+      });
     });
   
     // Check if a channel has custom setting

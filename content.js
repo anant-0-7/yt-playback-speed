@@ -1,8 +1,8 @@
 let currentVideo = '';
 let currentChannel = '';
 let attemptCount = 0;
-const MAX_ATTEMPTS = 20; // Increased max attempts
-const RETRY_INTERVAL = 500; // 500ms between retries
+const MAX_ATTEMPTS = 20; 
+const RETRY_INTERVAL = 500;
 
 // Debug logging function that only logs in development
 function debugLog(...args) {
@@ -92,7 +92,7 @@ function applySpeed(speed, video, channelName) {
     video.playbackRate = speed;
     
     // Update YouTube's playback speed UI using injected script
-    updateYouTubeSpeedUI(speed);
+    // updateYouTubeSpeedUI(speed);
     
     debugLog(`Successfully set playback speed to ${speed}x for channel: ${channelName || 'unknown'}`);
   } catch (e) {
@@ -100,95 +100,7 @@ function applySpeed(speed, video, channelName) {
   }
 }
 
-// Function to update YouTube's player UI to reflect our speed change
-function updateYouTubeSpeedUI(speed) {
-  try {
-    // Create and inject script that directly interacts with YouTube's player
-    const script = document.createElement('script');
-    script.textContent = `
-      (function() {
-        // Try to access the player directly
-        const video = document.querySelector('video');
-        if (!video) return;
-        
-        // Set playback rate directly
-        video.playbackRate = ${speed};
-        
-        // Try to get the HTML5 video player API object
-        const playerAPI = document.querySelector('.html5-video-player');
-        if (playerAPI && typeof playerAPI.setPlaybackRate === 'function') {
-          try {
-            playerAPI.setPlaybackRate(${speed});
-          } catch (e) {
-            console.log("Error using player API", e);
-          }
-        }
-        
-        // Try to update any speed menu items
-        try {
-          // Get speed labels to check for
-          const speeds = ['0.25×', '0.5×', '0.75×', 'Normal', '1.25×', '1.5×', '1.75×', '2×'];
-          const speedValues = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
-          
-          // Function to update displayed speed in menu
-          const updateSpeedDisplay = () => {
-            const menuItems = document.querySelectorAll('.ytp-menuitem');
-            menuItems.forEach(item => {
-              const label = item.querySelector('.ytp-menuitem-label');
-              if (label && label.textContent.includes('Speed')) {
-                const content = item.querySelector('.ytp-menuitem-content');
-                if (content) {
-                  // Find the closest speed label or use custom format
-                  const index = speedValues.indexOf(${speed});
-                  if (index !== -1) {
-                    content.textContent = speeds[index];
-                  } else {
-                    content.textContent = ${speed} + '×';
-                  }
-                }
-              }
-            });
-          };
-          
-          // Try to update now and also set a mutation observer for future menu opens
-          updateSpeedDisplay();
-          
-          // Set up an observer for when the speed menu might appear
-          const observer = new MutationObserver(mutations => {
-            mutations.forEach(mutation => {
-              if (mutation.addedNodes && mutation.addedNodes.length) {
-                for (let i = 0; i < mutation.addedNodes.length; i++) {
-                  const node = mutation.addedNodes[i];
-                  if (node.classList && (
-                      node.classList.contains('ytp-settings-menu') || 
-                      node.classList.contains('ytp-panel') ||
-                      node.classList.contains('ytp-popup')
-                    )) {
-                    updateSpeedDisplay();
-                  }
-                }
-              }
-            });
-          });
-          
-          // Start observing the document with the configured parameters
-          observer.observe(document.body, { childList: true, subtree: true });
-          
-          // Clean up observer after 10 seconds to prevent memory leaks
-          setTimeout(() => observer.disconnect(), 10000);
-        } catch (e) {
-          console.log("Error updating speed menu", e);
-        }
-      })();
-    `;
-    
-    // Add and remove the script
-    document.head.appendChild(script);
-    document.head.removeChild(script);
-  } catch (e) {
-    debugLog('Error injecting speed UI update script', e);
-  }
-}
+
 
 // Try to set playback speed with retries
 function trySetSpeed() {
