@@ -9,8 +9,14 @@ This browser extension saves your playback speed preferences for specific YouTub
 
 ## Installation
 
-### For Chrome
+### For Chrome (or any Chromium-based browser)
 1. Download this repository
 2. Extract in /yt-playback-speed
-3. Go to chrome://extensions, turn on developer mode
+3. Go to chrome://extensions (extension settings of any browser), turn on developer mode
 4. Click Load Unpacked and select the folder you extracted the files in
+
+#### Supported Browsers-
+1. Google Chrome
+2. Brave
+3. MS Edge
+4. Opera
