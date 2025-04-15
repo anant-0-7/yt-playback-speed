@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const deleteBtn = document.createElement('span');
         deleteBtn.className = 'delete-btn';
-        deleteBtn.textContent = '×';
+        deleteBtn.textContent = 'X';
         
         // Handle speed change
         speedSelect.addEventListener('change', function() {
